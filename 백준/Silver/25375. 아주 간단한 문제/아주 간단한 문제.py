@@ -1,6 +1,5 @@
-import sys; gets = sys.stdin.readline
-
-t = int(gets())
-for _ in range(t):
-    a, b = map(int, gets().split())
-    print(1 if b % a == 0 and b != a else 0)
+import sys
+g=sys.stdin.readline
+for _ in range(int(g())):
+  a,b=map(int,g().split())
+  print((b%a==0)*(b>a))
