@@ -1,29 +1,16 @@
-START = 100
-button = set([])
-
 target = int(input())
+ans = abs(100 - target)
 n = int(input())
 if n:
-    button = set(list(map(int, input().split())))
+    b = set(input().split())
+else:
+    b = set()
 
-def sol(target, button):
-    i = 0
-    d = abs(target - START)
-    while 1:
-        ans = [d]
-        if i >= d:
-            return d
-        else:
-            switch = False
-            if not (set(list(map(int, str(target+i)))) & button):
-                ans.append(len(str(target+i)) + i)
-                switch = True
-            if i <= target:
-                if not (set(list(map(int, str(target-i)))) & button):
-                    ans.append(len(str(target-i)) + i)
-                    switch = True
-            if switch:
-                return min(ans)
-        i += 1
+for i in range(1000001):
+    for j in str(i):
+        if j in b:
+            break
+    else:
+        ans = min(ans, len(str(i)) + abs(i - target))
 
-print(sol(target, button))
+print(ans)
