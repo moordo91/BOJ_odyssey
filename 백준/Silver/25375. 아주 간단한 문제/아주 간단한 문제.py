@@ -1,5 +1,6 @@
 import sys
-g=sys.stdin.readline
-for _ in range(int(g())):
- a,b=map(int,g().split())
- print(+(b%a==0and b!=a))
+
+input()
+for line in sys.stdin:
+    a, b = map(int, line.split())
+    print(0 if b % a or a == b else 1)
