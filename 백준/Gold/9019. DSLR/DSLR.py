@@ -1,39 +1,37 @@
 from collections import deque
 import sys; gets = sys.stdin.readline
 
-def bfs(node, end, visited):
-    q = deque([(node, "")])
-    visited[node] = True
+def bfs(a, b, v):
+    q = deque([(a, "")])
+    v[a] = True
 
     while q:
-        node, ans = q.popleft()
-        if node == end:
+        a, ans = q.popleft()
+        if a == b:
             return ans
-
-
-        num = (2*node) % 10000
-        if not visited[num]:
-            visited[num] = True
-            q.append((num, ans+"D"))
         
-        num = (node-1) % 10000
-        if not visited[num]:
-            visited[num] = True
-            q.append((num, ans+"S"))
+        n = a*2%10000
+        if not v[n]:
+            v[n] = True
+            q.append((n, ans+"D"))
+        
+        n = (a-1)%10000
+        if not v[n]:
+            v[n] = True
+            q.append((n, ans+"S"))
 
-        num = (node*10 + (node//1000)) % 10000        
-        if not visited[num]:
-            visited[num] = True
-            q.append((num, ans+"L"))
-            
-        num = ((node%10)*1000 + (node//10)) % 10000
-        if not visited[num]:
-            visited[num] = True
-            q.append((num, ans+"R"))
+        n = (a//1000+a*10)%10000
+        if not v[n]:
+            v[n] = True
+            q.append((n, ans+"L"))
+
+        n = (a%10*1000+a//10)%10000
+        if not v[n]:
+            v[n] = True
+            q.append((n, ans+"R"))
 
 t = int(gets())
-
 for _ in range(t):
-    visited = [False for _ in range(10000)]
-    start, end = map(int, gets().split())
-    print(bfs(start, end, visited))
+    v = [False for _ in range(10000)]
+    a, b = map(int, gets().split())
+    print(bfs(a, b, v))
