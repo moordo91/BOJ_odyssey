@@ -10,5 +10,4 @@ def sol(start):
             arr.append(i)
             sol(i+1)
             arr.pop()
-
 sol(1)
