@@ -11,9 +11,6 @@ def dijkstra(n, start, graph):
     while heap:
         d, now = heapq.heappop(heap)
 
-        if cost_arr[now] < d:
-            continue
-
         for w, nxt in graph[now]:
             cost = w + d
 
