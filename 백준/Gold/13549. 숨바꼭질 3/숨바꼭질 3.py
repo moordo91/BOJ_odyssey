@@ -1,40 +1,24 @@
-import heapq
-INF = float('inf')
-
-def dijkstra(graph, start):
-    heap = []
-    cost_arr = [INF] * 100_001
-    cost_arr[start] = 0
-    heapq.heappush(heap, (0, start))
-
-    while heap:
-        sec, now = heapq.heappop(heap)
-
-        if sec > cost_arr[now]:
-            continue
-
-        for nxt_sec, nxt in graph[now]:
-            cost = nxt_sec + sec
-
-            if cost < cost_arr[nxt]:
-                cost_arr[nxt] = cost
-                heapq.heappush(heap, (cost, nxt))
-    
-    return cost_arr
-
+from collections import deque
 
 n, k = map(int, input().split())
+q = deque([n])
 
-graph = {
-    0: [(1, 1)],
-    100_000: [(1, 99999)]
-}
+MAX = 100_001
+time = [-1] * MAX
+time[n] = 0
 
-for i in range(1, 50_000+1):
-    graph[i] = [(1, i-1), (1, i+1), (0, 2*i)]
+while q:
+    i = q.popleft()
+    if i == k:
+        print(time[i])
+        break
+    if i-1 >= 0 and time[i-1] == -1:
+        q.append(i-1)
+        time[i-1] = time[i] + 1
+    if i*2 < MAX and time[i*2] == -1:
+        q.appendleft(i*2)
+        time[i*2] = time[i]
+    if i+1 < MAX and time[i+1] == -1:
+        q.append(i+1)
+        time[i+1] = time[i] + 1
     
-for i in range(50_001, 100_000):
-    graph[i] = [(1, i-1), (1, i+1)]
-
-cost_arr = dijkstra(graph, n)
-print(cost_arr[k])
