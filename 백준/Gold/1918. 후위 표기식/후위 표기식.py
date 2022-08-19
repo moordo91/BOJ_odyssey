@@ -8,8 +8,8 @@ for i in m_e:
     else:
         if i == '(':
             stk.append(i)
-        elif i =='*' or i == '/':
-            while stk and (stk[-1] == '*' or stk[-1] == '/'):
+        elif i == '*' or i == '/':
+            if stk and (stk[-1] == '*' or stk[-1] == '/'):
                 ans += stk.pop()
             stk.append(i)
         elif i == '+' or i == '-':
@@ -20,7 +20,7 @@ for i in m_e:
             while stk and stk[-1] != '(':
                 ans += stk.pop()
             stk.pop()
-            
+
 while stk:
     ans += stk.pop()
 
