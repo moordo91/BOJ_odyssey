@@ -4,11 +4,11 @@
 using namespace std;
 
 int N;
-int arr[11] = {0,};
-int oper[4] = {0,};
+int arr[11];
+int oper[4];
 
-int minVal = MAX;
 int maxVal = -MAX;
+int minVal = MAX;
 
 void sol(int result, int idx) {
     
@@ -35,7 +35,7 @@ void sol(int result, int idx) {
             oper[i]++;
         }
     }
-    return;    
+    return; 
 }
 
 int main() {
