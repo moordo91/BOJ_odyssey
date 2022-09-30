@@ -1,5 +1,3 @@
-// 10992 별찍기-17
-
 #include <iostream>
 using namespace std;
 
