@@ -1,13 +1,13 @@
 from collections import deque
 
-directions = {
+DIR_PRIORITY = {
     1: [(-1, 0), (0, -1), (0, 1), (1, 0)],
     2: [(1, 0), (0, 1), (0, -1), (-1, 0)],
     3: [(0, -1), (1, 0), (-1, 0), (0, 1)],
     4: [(0, 1), (-1, 0), (1, 0), (0, -1)]
 }
 
-directions_ = {
+DELTA_TO_DIR = {
     (-1, 0): 1,
     (1, 0): 2,
     (0, -1): 3,
@@ -18,21 +18,20 @@ JUMP_ORDERS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
 
 def move(N, r, c, d, grid, answer):
-    jump_flag = False
-    len_answer = len(answer) - 1
-    while not jump_flag:
-        len_answer += 1
+    while True:
+        moved = False
         for i in range(4):
-            dr, dc = directions[d][i]
+            dr, dc = DIR_PRIORITY[d][i]
             nr, nc = r + dr, c + dc
             if 0 <= nr < N and 0 <= nc < N and grid[nr][nc] == 0:
                 grid[nr][nc] = 2
                 answer.append((nr, nc))
                 r, c = nr, nc
-                d = directions_[(dr, dc)]
+                d = DELTA_TO_DIR[(dr, dc)]
+                moved = True
                 break
-        if len(answer) == len_answer:
-            jump_flag = True
+        if not moved:
+            break
     return r, c, d
 
 
@@ -43,7 +42,7 @@ def jump(N, r, c, grid):
     nearest_level = 1_000_000
     while queue:
         r, c, l = queue.popleft()
-        if l > nearest_level:
+        if l >= nearest_level:
             break
         for dr, dc in JUMP_ORDERS:
             nr, nc = r + dr, c + dc
@@ -52,7 +51,7 @@ def jump(N, r, c, grid):
                 visited.add((nr, nc))
                 if grid[nr][nc] == 0 and l + 1 <= nearest_level:
                     nearest_level = min(nearest_level, l + 1)
-                    d = directions_[(dr, dc)]
+                    d = DELTA_TO_DIR[(dr, dc)]
                     candis.append((nr, nc, d))
     return candis
 
@@ -66,8 +65,7 @@ def main(N, r, c, d, grid):
         candis = jump(N, r, c, grid)
         if len(candis) == 0:
             return answer
-        candis.sort()
-        r, c, d = candis[0]
+        r, c, d = min(candis)
         grid[r][c] = 2
         answer.append((r, c))
 
